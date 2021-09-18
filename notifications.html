@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notifications</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/jquery.scrollbar.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/ionicons.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i"
+      rel="stylesheet"
+    />
+
+    <link rel="shortcut icon" type="image/png" href="images/fav.png" />
+  </head>
+  <body>
+    <header id="header">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button
+              type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index-register.html"
+              ><img src="images/logo.png" alt="logo"
+            /></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div
+            class="collapse navbar-collapse"
+            id="bs-example-navbar-collapse-1"
+          >
+            <ul class="nav navbar-nav navbar-right main-menu">
+              <li class="dropdown"><a href="contact.html">Logout</a></li>
+            </ul>
+            <form class="navbar-form navbar-right hidden-sm">
+              <div class="form-group">
+                <i class="icon ion-android-search"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search friends, photos, videos"
+                />
+              </div>
+            </form>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+      </nav>
+    </header>
+    <!--Header End-->
+
+    <div id="page-contents">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 static">
+            <div class="profile-card">
+              <img
+                src="images/users/user-1.jpg"
+                alt="user"
+                id="userImage"
+                class="profile-photo"
+              />
+              <h5>
+                <a href="timeline.html" id="userName" class="text-white"
+                  >Sarah Cruiz</a
+                >
+              </h5>
+              <a href="#" class="text-white" id="userFriendsCount"
+                ><i class="ion ion-android-person-add"></i> 1,299 followers</a
+              >
+            </div>
+            <ul class="nav-news-feed">
+              <li>
+                <i class="icon ion-ios-people"></i>
+                <div>
+                  <a href="newsfeed-people-nearby.html">Connect With Friend</a>
+                </div>
+              </li>
+              <li>
+                <i class="icon ion-ios-people-outline"></i>
+                <div><a href="newsfeed-friends.html">My Friends</a></div>
+              </li>
+              <li>
+                <i class="icon ion-chatboxes"></i>
+                <div><a href="newsfeed-messages.html">Notifications</a></div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-9">
+            <div class="chat-room">
+              <div class="row">
+                <div class="col-md-12">
+                  <ul
+                    class="
+                      nav nav-tabs
+                      contact-list
+                      scrollbar-wrapper scrollbar-outer
+                    "
+                  >
+                    <li id="notificatication">
+                      <a>
+                        <div class="contact">
+                          <img
+                            src="images/users/user-2.jpg"
+                            alt=""
+                            class="profile-photo-sm pull-left"
+                          />
+                          <div class="msg-preview">
+                            <h6>Linda Lohan</h6>
+                            <p class="text-muted">Hi there, how are you</p>
+                            <small class="text-muted">a min ago</small>
+                          </div>
+
+                          <button class="btn btn-primary">Accept</button>
+                          <button class="btn btn-danger">Decline</button>
+                          <button class="btn btn-warning">Block</button>
+                        </div>
+                      </a>
+                    </li>
+                    <li id="notificatication">
+                      <a>
+                        <div class="contact">
+                          <img
+                            src="images/users/user-2.jpg"
+                            alt=""
+                            class="profile-photo-sm pull-left"
+                          />
+                          <div class="msg-preview">
+                            <h6>Linda Lohan</h6>
+                            <p class="text-muted">Hi there, how are you</p>
+                            <small class="text-muted">a min ago</small>
+                          </div>
+                          <button class="btn btn-primary">Accept</button>
+                          <button class="btn btn-danger">Decline</button>
+                          <button class="btn btn-warning">Block</button>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.sticky-kit.min.js"></script>
+    <script src="js/jquery.scrollbar.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
