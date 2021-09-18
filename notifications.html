@@ -19,54 +19,6 @@
     <link rel="shortcut icon" type="image/png" href="images/fav.png" />
   </head>
   <body>
-    <header id="header">
-      <nav class="navbar navbar-default navbar-fixed-top menu">
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button
-              type="button"
-              class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1"
-              aria-expanded="false"
-            >
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index-register.html"
-              ><img src="images/logo.png" alt="logo"
-            /></a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div
-            class="collapse navbar-collapse"
-            id="bs-example-navbar-collapse-1"
-          >
-            <ul class="nav navbar-nav navbar-right main-menu">
-              <li class="dropdown"><a href="contact.html">Logout</a></li>
-            </ul>
-            <form class="navbar-form navbar-right hidden-sm">
-              <div class="form-group">
-                <i class="icon ion-android-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search friends, photos, videos"
-                />
-              </div>
-            </form>
-          </div>
-          <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-      </nav>
-    </header>
-    <!--Header End-->
-
     <div id="page-contents">
       <div class="container">
         <div class="row">
@@ -79,7 +31,7 @@
                 class="profile-photo"
               />
               <h5>
-                <a href="timeline.html" id="userName" class="text-white"
+                <a href="profile.html" id="userName" class="text-white"
                   >Sarah Cruiz</a
                 >
               </h5>
@@ -91,16 +43,24 @@
               <li>
                 <i class="icon ion-ios-people"></i>
                 <div>
-                  <a href="newsfeed-people-nearby.html">Connect With Friend</a>
+                  <a href="find.html">Connect With Friend</a>
                 </div>
               </li>
               <li>
                 <i class="icon ion-ios-people-outline"></i>
-                <div><a href="newsfeed-friends.html">My Friends</a></div>
+                <div><a href="myfriends.html">My Friends</a></div>
               </li>
               <li>
                 <i class="icon ion-chatboxes"></i>
-                <div><a href="newsfeed-messages.html">Notifications</a></div>
+                <div><a href="notifications.html">Notifications</a></div>
+              </li>
+              <li>
+                <i class="icon ion-person text-success"></i>
+                <div><a href="profile.html">Edit Profile</a></div>
+              </li>
+              <li>
+                <i class="icon ion-log-out text-warning"></i>
+                <div><a href="php/logout.php">Logout</a></div>
               </li>
             </ul>
           </div>
