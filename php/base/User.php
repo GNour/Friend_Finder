@@ -2,16 +2,14 @@
 
 class User
 {
-    protected $id;
-    protected $email;
-    protected $first_name;
-    protected $last_name;
-    protected $birthday;
-    protected $gender;
-    protected $city;
-    protected $country;
-    protected $user_blocked_users;
-    protected $user_friends;
+    public $id;
+    public $email;
+    public $first_name;
+    public $last_name;
+    public $birthday;
+    public $gender;
+    public $city;
+    public $country;
 
     public function __construct($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country)
     {
@@ -107,12 +105,10 @@ class User
         $stmt = $connection->prepare("INSERT INTO user_block_list (`user_id`, `friend_id`) VALUES (?,?)");
         $stmt->bind_param("ii", $this->id, $id);
         $stmt->execute();
-
         if ($stmt->affected_rows > 0) {
-
-            return array("ok" => 200, "message" => "Blocked User");
+            return true;
         } else {
-            return array("ok" => 500, "message" => "Couldn't Block User");
+            return false;
         }
 
     }
@@ -171,7 +167,7 @@ class User
 
     }
 
-    public static function registerUser($first_name, $last_name, $email, $password, $birthday, $gender, $city, $country)
+    public static function registerUser($first_name, $last_name, $email, $userPass, $birthday, $gender, $city, $country)
     {
         require_once "config/connection.php";
 

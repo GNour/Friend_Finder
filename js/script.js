@@ -2,14 +2,11 @@
 
 //Preloader
 var preloader = $("#spinner-wrapper");
-$(window).on("load", function () {
+function hidePreloader() {
   var preloaderFadeOutTime = 500;
-
-  function hidePreloader() {
-    preloader.fadeOut(preloaderFadeOutTime);
-  }
-  hidePreloader();
-});
+  preloader.fadeOut(preloaderFadeOutTime);
+}
+hidePreloader();
 
 jQuery(document).ready(function ($) {
   //Initiate Scroll Styling

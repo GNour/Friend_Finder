@@ -2,34 +2,36 @@
 
 class Notification
 {
-    private $id;
-    private $from_user;
-    private $to_user;
-    private $date;
-    private $response;
-    private $body;
+    public $id;
+    public $from_user_id;
+    public $from_user_first_name;
+    public $from_user_last_name;
+    public $to_user;
+    public $date;
+    public $response;
+    public $body;
 
-    public function __construct($id, $from_user, $to_user, $date)
+    public function __construct($id, $from_user, $from_user_first_name, $from_user_last_name, $to_user, $date)
     {
         $this->id = $id;
-        $this->from_user = $from_user;
+        $this->from_user_id = $from_user;
+        $this->from_user_first_name = $from_user_first_name;
+        $this->from_user_last_name = $from_user_last_name;
         $this->to_user = $to_user;
         $this->date = $date;
         $this->response = -1;
-        $this->body = $from_user . " Sent you a friend request";
+        $this->body = $from_user_first_name . " " . $from_user_last_name . " Sent you a friend request";
     }
 
-    public function acceptRequest()
+    public static function acceptRequest($id, $from)
     {
-        include "../config/connection.php";
-        include "../base/User.php";
+        include_once "../config/connection.php";
+        include_once "../base/User.php";
         session_start();
-        $isAdded = $_SESSION["user"]->addFriend($this->$from_user);
-
+        $isAdded = $_SESSION["user"]->addFriend($from);
         if ($isAdded) {
-            $stmt = $connection->query("UPDATE notification SET response = 1 WHERE id = " . $this->id);
-
-            if ($stmt->affected_rows > 0) {
+            $stmt = $connection->query("UPDATE notification SET response = 1 WHERE id = " . $id);
+            if ($connection->affected_rows > 0) {
                 return array("ok" => 200, "message" => "Accepted Request");
             }
         } else {
@@ -38,49 +40,66 @@ class Notification
 
     }
 
-    public function declineRequest()
+    public static function declineRequest($id)
     {
-        include "../config/connection.php";
+        include_once "../config/connection.php";
 
-        $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $this->id);
+        $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $id);
 
-        if ($stmt->affected_rows > 0) {
-
+        if ($connection->affected_rows > 0) {
             return array("ok" => 200, "message" => "Declined Request");
         } else {
             return array("ok" => 500, "message" => "Couldn't Decline Request");
         }
     }
 
-    public function declineRequestAndBlockUser()
+    public static function declineRequestAndBlockUser($id, $from)
     {
-        include "../config/connection.php";
-        include "../base/User.php";
+        include_once "../config/connection.php";
+        include_once "../base/User.php";
         session_start();
-        $isAdded = $_SESSION["user"]->blockUser($this->$from_user);
+        $isBlocked = $_SESSION["user"]->blockUser($from);
 
-        $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $this->id);
+        if ($isBlocked) {
+            $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $id);
 
-        if ($stmt->affected_rows > 0) {
+            if ($connection->affected_rows > 0) {
 
-            return array("ok" => 200, "message" => "Declined Request");
-        } else {
-            return array("ok" => 500, "message" => "Couldn't Decline Request");
+                return array("ok" => 200, "message" => "Declined Request");
+            } else {
+                return array("ok" => 500, "message" => "Couldn't Decline Request");
+            }
         }
     }
 
     public static function createRequest($from, $to, $date)
     {
         include "../config/connection.php";
-
-        $stmt = $connection->prepare("INSERT INTO notification (`from_user`, `to_user`, `date`, `response`, `body`) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("iisis", $from, $to, $date, -1, "Sent you a friend request");
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            return array("ok" => 200, "message" => "Sent Request");
+        if ($stmt = $connection->prepare("INSERT INTO `notification` (`from_user`, `to_user`, `date`, `response`, `body`) VALUES (?, ?, ?, -1, 'Sent you a friend request')")) {
+            $stmt->bind_param("iis", $from, $to, date("Y-m-d", strtotime($date)));
+            $stmt->execute();
+            if ($stmt->affected_rows > 0) {
+                return array("ok" => 200, "message" => "Sent Request");
+            } else {
+                return array("ok" => 500, "message" => "Couldn't Send Request");
+            }
         } else {
-            return array("ok" => 500, "message" => "Couldn't Send Request");
+            echo $stmt->error;
         }
+
+    }
+
+    public static function getUserNotifications($userId)
+    {
+        include "../config/connection.php";
+
+        $notifications = [];
+        $stmt = $connection->query("SELECT n.*, u.first_name as fromFirstName, u.last_name as fromLastName FROM user as u,notification as n WHERE u.id = n.from_user AND n.to_user = " . $userId . " AND n.response = -1");
+        while ($row = $stmt->fetch_assoc()) {
+            $notification = new Notification($row["id"], $row["from_user"], $row["fromFirstName"], $row["fromLastName"], $row["to_user"], $row["date"]);
+            $notifications[$row["id"]] = $notification;
+        }
+        return $notifications;
+
     }
 }

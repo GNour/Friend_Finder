@@ -66,6 +66,8 @@
                     name="registration_form"
                     id="registration_form"
                     class="form-inline"
+                    method="POST"
+                    action="php/register.php"
                   >
                     <div class="row">
                       <div class="form-group col-xs-6">
@@ -197,10 +199,15 @@
                     </div>
                     <div class="form-group gender">
                       <label class="radio-inline">
-                        <input type="radio" name="optradio" checked />Male
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="1"
+                          checked
+                        />Male
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="optradio" />Female
+                        <input type="radio" name="gender" value="0" />Female
                       </label>
                     </div>
                     <div class="row">
@@ -527,8 +534,7 @@
                 <div class="tab-pane" id="login">
                   <h3>Login</h3>
                   <p class="text-muted">Log into your account</p>
-
-                  <form name="Login_form" id="Login_form">
+                  <form id="loginForm">
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="my-email" class="sr-only">Email</label>
@@ -558,7 +564,11 @@
                       </div>
                     </div>
                   </form>
-                  <button class="btn btn-primary" form="Login_form">
+                  <button
+                    class="btn btn-primary"
+                    id="loginButton"
+                    form="Login_form"
+                  >
                     Login Now
                   </button>
                 </div>
@@ -576,8 +586,7 @@
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.appear.min.js"></script>
-    <script src="js/jquery.incremental-counter.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

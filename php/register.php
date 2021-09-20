@@ -1,7 +1,7 @@
 <?php
 require_once "./base/User.php";
 
-if (isset($_POST["email"]) && isset($_POST["password"]) && validatePassword() && validateEmail()) {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
     User::registerUser($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["password"], $_POST["year"] . "-" . $_POST["month"] . "-" . $_POST["day"], $_POST["gender"], $_POST["city"], $_POST["country"]);
 }
 
