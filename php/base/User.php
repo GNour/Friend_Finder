@@ -176,10 +176,14 @@ class User
 
             $user = new User($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country);
             session_start();
-
             $_SESSION["user"] = $user;
+            $data["user"] = $user;
 
-            return array("ok" => 200, "message" => "Welcome " . $email . " ");
+            $friendsCount = $connection->query("SELECT COUNT(id) as count FROM user_friend_list WHERE user_id = " . $id);
+            $row = $friendsCount->fetch_assoc();
+            $data["friendsCount"] = $row["count"];
+
+            return array("ok" => 200, "message" => "Welcome " . $email . " ", "data" => $data);
         } else {
             return array("ok" => 500, "message" => "Sorry Couldn't login you in");
         }

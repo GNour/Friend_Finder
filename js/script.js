@@ -6,6 +6,7 @@ function hidePreloader() {
   var preloaderFadeOutTime = 500;
   preloader.fadeOut(preloaderFadeOutTime);
 }
+
 hidePreloader();
 
 jQuery(document).ready(function ($) {
@@ -49,3 +50,13 @@ $(window).on("resize", function () {
     };
   }
 });
+
+if (localStorage.getItem("user")) {
+  const data = JSON.parse(localStorage.getItem("user"));
+  $("#userName").html(data.user.first_name + " " + data.user.last_name);
+  $("#userFriendsCount")
+    .html(`<i class="ion ion-android-person-add"></i> ${parseInt(
+    data.friendsCount
+  )} followers</a
+  >`);
+}
