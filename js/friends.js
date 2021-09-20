@@ -66,6 +66,7 @@ function appendPendings(result) {
   const pendingContainer = document.getElementById("userPendings");
   let havePendings = false;
   for (const [id, data] of Object.entries(result)) {
+    havePendings = true;
     const pending = `<div class="row" id="pending_${id}">
     <div class="col-md-2 col-sm-2">
       <img
