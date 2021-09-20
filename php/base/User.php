@@ -55,13 +55,29 @@ class User
 
         $friends = [];
 
-        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country FROM user as u,user_friend_list as ul WHERE u.id = ul.friend_id AND ul.user_id = " . $this->id);
+        $stmt = $connection->query("SELECT ul.id as friendId, u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country FROM user as u,user_friend_list as ul WHERE u.id = ul.friend_id AND ul.user_id = " . $this->id);
         while ($row = $stmt->fetch_assoc()) {
             $friend = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"]);
-            $friends[$row["id"]] = $frined;
+            $friends[$row["friendId"]] = $friend;
         }
 
         return $friends;
+
+    }
+
+    public function getUserPendingFriends()
+    {
+        include "../config/connection.php";
+
+        $pendings = [];
+
+        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country, n.id as notificationId FROM user as u, notification as n WHERE u.id = n.to_user AND n.from_user = " . $this->id . " AND n.response = -1");
+        while ($row = $stmt->fetch_assoc()) {
+            $pending = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"]);
+            $pendings[$row["notificationId"]] = $pending;
+        }
+
+        return $pendings;
 
     }
 
@@ -106,6 +122,9 @@ class User
         $stmt->bind_param("ii", $this->id, $id);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM user_friend_list WHERE user_id = ? AND friend_id = ?");
+            $stmt->bind_param("ii", $this->id, $id);
+            $stmt->execute();
             return true;
         } else {
             return false;

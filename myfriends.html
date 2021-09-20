@@ -67,46 +67,10 @@
             </ul>
           </div>
           <div class="col-md-9">
-            <div class="friend-list">
-              <div class="row" id="userFriends">
-                <div class="col-md-2 col-sm-2">
-                  <img
-                    src="images/users/user-15.jpg"
-                    alt="user"
-                    class="profile-photo-lg"
-                  />
-                </div>
-                <div class="col-md-7 col-sm-7">
-                  <h5><a href="#" class="profile-link">Sophia Page</a></h5>
-                  <p>2021-1-1</p>
-                  <p class="text-muted">City, Country</p>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                  <button class="btn btn-danger mb-5">Remove Friend</button>
-                  <button class="btn btn-warning mb-5">Block</button>
-                </div>
-              </div>
-              <h1>Pending Requests</h1>
-              <hr />
-              <div class="row" id="pendingFriends">
-                <div class="col-md-2 col-sm-2">
-                  <img
-                    src="images/users/user-15.jpg"
-                    alt="user"
-                    class="profile-photo-lg"
-                  />
-                </div>
-                <div class="col-md-7 col-sm-7">
-                  <h5><a href="#" class="profile-link">Sophia Page</a></h5>
-                  <p>2021-1-1</p>
-                  <p class="text-muted">City, Country</p>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                  <button class="btn btn-danger mb-5">Remove Request</button>
-                  <button class="btn btn-warning mb-5">Block</button>
-                </div>
-              </div>
-            </div>
+            <div class="friend-list" id="userFriends"></div>
+            <h3>Pending Requests</h3>
+            <hr />
+            <div class="friend-list" id="userPendings"></div>
           </div>
         </div>
       </div>
@@ -122,5 +86,6 @@
     <script src="js/jquery.sticky-kit.min.js"></script>
     <script src="js/jquery.scrollbar.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/friends.js"></script>
   </body>
 </html>
