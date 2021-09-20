@@ -25,6 +25,7 @@ $("#loginButton").click((event) => {
   }
   loginUser(data).then((result) => {
     if (result.ok == 200) {
+      localStorage.setItem("user", JSON.stringify(result.data));
       window.location.href = "./notifications.html";
     } else {
     }
