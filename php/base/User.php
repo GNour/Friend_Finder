@@ -10,8 +10,9 @@ class User
     public $gender;
     public $city;
     public $country;
+    public $profileImage;
 
-    public function __construct($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country)
+    public function __construct($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country, $profileImage)
     {
         $this->id = $id;
         $this->email = $email;
@@ -21,6 +22,7 @@ class User
         $this->gender = $gender;
         $this->city = $city;
         $this->country = $country;
+        $this->profileImage = $profileImage;
     }
 
     public function getId()
@@ -39,9 +41,9 @@ class User
 
         $blockedList = [];
 
-        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country FROM user as u,user_block_list as ub WHERE u.id = ub.friend_id AND ub.user_id = " . $this->id);
+        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country, u.profile_image FROM user as u,user_block_list as ub WHERE u.id = ub.friend_id AND ub.user_id = " . $this->id);
         while ($row = $stmt->fetch_assoc()) {
-            $blocked = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"]);
+            $blocked = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"], $row["profile_image"]);
             $blockedList[$row["id"]] = $blocked;
         }
 
@@ -55,9 +57,9 @@ class User
 
         $friends = [];
 
-        $stmt = $connection->query("SELECT ul.id as friendId, u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country FROM user as u,user_friend_list as ul WHERE u.id = ul.friend_id AND ul.user_id = " . $this->id);
+        $stmt = $connection->query("SELECT ul.id as friendId, u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country, u.profile_image FROM user as u,user_friend_list as ul WHERE (u.id = ul.friend_id AND ul.user_id = " . $this->id . ") OR (u.id = ul.user_id AND ul.friend_id = " . $this->id . ")");
         while ($row = $stmt->fetch_assoc()) {
-            $friend = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"]);
+            $friend = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"], $row["profile_image"]);
             $friends[$row["friendId"]] = $friend;
         }
 
@@ -71,9 +73,9 @@ class User
 
         $pendings = [];
 
-        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country, n.id as notificationId FROM user as u, notification as n WHERE u.id = n.to_user AND n.from_user = " . $this->id . " AND n.response = -1");
+        $stmt = $connection->query("SELECT u.id, u.email, u.birthday, u.first_name, u.last_name, u.gender, u.city, u.country, u.profile_image, n.id as notificationId FROM user as u, notification as n WHERE u.id = n.to_user AND n.from_user = " . $this->id . " AND n.response = -1");
         while ($row = $stmt->fetch_assoc()) {
-            $pending = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"]);
+            $pending = new User($row["id"], $row["email"], $row["first_name"], $row["last_name"], $row["birthday"], $row["gender"], $row["city"], $row["country"], $row["profile_image"]);
             $pendings[$row["notificationId"]] = $pending;
         }
 
@@ -164,17 +166,17 @@ class User
     {
         require_once "../config/connection.php";
 
-        $stmt = $connection->prepare("SELECT `id`,`email`,`birthday`,`first_name`,`last_name`,`gender`,`city`,`country` FROM user WHERE user.email = ? AND user.password = ?");
+        $stmt = $connection->prepare("SELECT `id`,`email`,`birthday`,`first_name`,`last_name`,`gender`,`city`,`country`, `profile_image` FROM user WHERE user.email = ? AND user.password = ?");
         $stmt->bind_param("ss", $email, hash("sha256", $userPass));
         $stmt->execute();
 
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($id, $email, $birthday, $first_name, $last_name, $gender, $city, $country);
+            $stmt->bind_result($id, $email, $birthday, $first_name, $last_name, $gender, $city, $country, $profileImage);
             $stmt->fetch();
 
-            $user = new User($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country);
+            $user = new User($id, $email, $first_name, $last_name, $birthday, $gender, $city, $country, $profileImage);
             session_start();
             $_SESSION["user"] = $user;
             $data["user"] = $user;
@@ -190,7 +192,7 @@ class User
 
     }
 
-    public static function registerUser($first_name, $last_name, $email, $userPass, $birthday, $gender, $city, $country)
+    public static function registerUser($first_name, $last_name, $email, $userPass, $birthday, $gender, $city, $country, $imageUrl)
     {
         require_once "config/connection.php";
 
@@ -203,13 +205,12 @@ class User
                 echo ("Email already exists, Try to login");
                 header("refresh:2;url=../login.html");
             } else {
-                if ($stmt = $connection->prepare("INSERT INTO user (`first_name`, `last_name`, `email`, `password`, `birthday`, `gender`, `city`, `country`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
-                    $stmt->bind_param("sssssiss", $first_name, $last_name, $email, hash("sha256", $userPass), date("Y-m-d", strtotime($birthday)), $gender, $city, $country);
+                if ($stmt = $connection->prepare("INSERT INTO user (`first_name`, `last_name`, `email`, `password`, `birthday`, `gender`, `city`, `country`, `profile_image`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                    $stmt->bind_param("sssssisss", $first_name, $last_name, $email, hash("sha256", $userPass), date("Y-m-d", strtotime($birthday)), $gender, $city, $country, $imageUrl);
                     $stmt->execute();
 
                 }
                 if ($stmt->affected_rows > 0) {
-
                     header("location: ../index.html");
                 } else {
                     echo 'An error occured' . $stmt->error;

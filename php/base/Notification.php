@@ -6,17 +6,19 @@ class Notification
     public $from_user_id;
     public $from_user_first_name;
     public $from_user_last_name;
+    public $from_user_image;
     public $to_user;
     public $date;
     public $response;
     public $body;
 
-    public function __construct($id, $from_user, $from_user_first_name, $from_user_last_name, $to_user, $date)
+    public function __construct($id, $from_user, $from_user_first_name, $from_user_last_name, $from_user_image, $to_user, $date)
     {
         $this->id = $id;
         $this->from_user_id = $from_user;
         $this->from_user_first_name = $from_user_first_name;
         $this->from_user_last_name = $from_user_last_name;
+        $this->from_user_image = $from_user_image;
         $this->to_user = $to_user;
         $this->date = $date;
         $this->response = -1;
@@ -94,9 +96,9 @@ class Notification
         include "../config/connection.php";
 
         $notifications = [];
-        $stmt = $connection->query("SELECT n.*, u.first_name as fromFirstName, u.last_name as fromLastName FROM user as u,notification as n WHERE u.id = n.from_user AND n.to_user = " . $userId . " AND n.response = -1");
+        $stmt = $connection->query("SELECT n.*, u.first_name as fromFirstName, u.last_name as fromLastName, u.profile_image as profileImage FROM user as u,notification as n WHERE u.id = n.from_user AND n.to_user = " . $userId . " AND n.response = -1");
         while ($row = $stmt->fetch_assoc()) {
-            $notification = new Notification($row["id"], $row["from_user"], $row["fromFirstName"], $row["fromLastName"], $row["to_user"], $row["date"]);
+            $notification = new Notification($row["id"], $row["from_user"], $row["fromFirstName"], $row["fromLastName"], $row["profileImage"], $row["to_user"], $row["date"]);
             $notifications[$row["id"]] = $notification;
         }
         return $notifications;

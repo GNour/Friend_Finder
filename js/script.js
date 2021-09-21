@@ -54,9 +54,10 @@ $(window).on("resize", function () {
 if (localStorage.getItem("user")) {
   const data = JSON.parse(localStorage.getItem("user"));
   $("#userName").html(data.user.first_name + " " + data.user.last_name);
+  $("#userImage").attr("src", data.user.profileImage.substring(1));
   $("#userFriendsCount")
     .html(`<i class="ion ion-android-person-add"></i> ${parseInt(
     data.friendsCount
-  )} followers</a
+  )} Friends</a
   >`);
 }
