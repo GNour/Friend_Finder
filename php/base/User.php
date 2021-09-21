@@ -138,8 +138,8 @@ class User
     {
         include "../config/connection.php";
 
-        $stmt = $connection->prepare("DELETE FROM user_block_list WHERE id = ?");
-        $stmt->bind_param("i", $id);
+        $stmt = $connection->prepare("DELETE FROM user_block_list WHERE user_id = ? AND friend_id = ?");
+        $stmt->bind_param("ii", $this->id, $id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {

@@ -19,6 +19,7 @@ $(window).on("load", function () {
       console.log(result);
       appendFriends(result.friends);
       appendPendings(result.pendings);
+      appendBlocked(result.blocked);
       hidePreloader();
     })
     .catch((err) => {
@@ -102,6 +103,41 @@ function appendPendings(result) {
     pendingContainer.innerHTML = `<h6 class="text-muted"> No pending Requests </h6>`;
   }
 }
+
+function appendBlocked(result) {
+  const blockedContainer = document.getElementById("userBlocked");
+  let haveBlocked = false;
+  for (const [id, data] of Object.entries(result)) {
+    haveBlocked = true;
+    const blocked = `<div class="row" id="blocked_${id}">
+    <div class="col-md-2 col-sm-2">
+      <img
+        src="${data.profileImage.substring(1)}"
+        alt="user"
+        class="profile-photo-lg"
+      />
+    </div>
+    <div class="col-md-7 col-sm-7">
+      <h5><a href="#" class="profile-link">${data.first_name} ${
+      data.last_name
+    }</a></h5>
+      <p>2021-1-1</p>
+      <p class="text-muted">${data.city}, ${data.country}</p>
+    </div>
+    <div class="col-md-3 col-sm-3">
+      <button class="btn btn-danger removeBlock mb-5" id="${id}">Remove Block</button>
+    </div>
+  </div>`;
+    blockedContainer.innerHTML += blocked;
+  }
+
+  if (haveBlocked) {
+    $(".removeBlock").click(removeBlock);
+  } else {
+    blockedContainer.innerHTML = `<h6 class="text-muted"> No Blocked Users </h6>`;
+  }
+}
+
 async function friendAPI(action, id, fromUserId) {
   const data = new URLSearchParams();
   data.append("action", "get");
@@ -163,6 +199,17 @@ function blockUserFriend(event) {
   });
 }
 
+function removeBlock(event) {
+  const action = "removeBlock";
+  const userFriendId = event.currentTarget.id;
+
+  friendAPI(action, userFriendId).then((result) => {
+    if (result.ok == 200) {
+      removeBlockRow(userFriendId);
+    }
+  });
+}
+
 function removeFriend(id) {
   $("#friend_" + id).fadeOut(100, function () {
     $(this).remove();
@@ -173,4 +220,22 @@ function removePending(id) {
   $("#pending_" + id).fadeOut(100, function () {
     $(this).remove();
   });
+}
+
+function removeBlockRow(id) {
+  $("#blocked_" + id).fadeOut(100, function () {
+    $(this).remove();
+  });
+}
+
+function showBlocked() {
+  $("#userBlocked").removeClass("hidden");
+  $("#showBlockedA").addClass("hidden");
+  $("#hideBlockedA").removeClass("hidden");
+}
+
+function hideBlocked() {
+  $("#userBlocked").addClass("hidden");
+  $("#showBlockedA").removeClass("hidden");
+  $("#hideBlockedA").addClass("hidden");
 }

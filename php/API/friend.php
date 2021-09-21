@@ -7,6 +7,7 @@ if ($_GET["action"] == "get") {
     $result = array();
     $result["friends"] = $_SESSION["user"]->getUserFriends();
     $result["pendings"] = $_SESSION["user"]->getUserPendingFriends();
+    $result["blocked"] = $_SESSION["user"]->getUserBlockedList();
     echo json_encode($result);
 }
 
@@ -21,6 +22,10 @@ if ($_GET["action"] == "block") {
 
 if ($_GET["action"] == "removePending") {
     echo json_encode(Notification::declineRequest($_GET["id"]));
+}
+
+if ($_GET["action"] == "removeBlock") {
+    echo json_encode($_SESSION["user"]->removeBlock(($_GET["id"])));
 }
 
 if ($_GET["action"] == "blockPending") {

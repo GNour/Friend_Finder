@@ -67,10 +67,29 @@
             </ul>
           </div>
           <div class="col-md-9">
+            <h4 class="text-success">My Friends</h4>
+            <hr />
             <div class="friend-list" id="userFriends"></div>
-            <h3>Pending Requests</h3>
+            <h4>Pending Requests</h4>
             <hr />
             <div class="friend-list" id="userPendings"></div>
+            <h4 class="text-danger">Blocked Users</h4>
+            <hr />
+            <a
+              href="#userBlocked"
+              class="text-warning"
+              id="showBlockedA"
+              onclick="showBlocked()"
+              >Show blocked Users</a
+            >
+            <a
+              href="#userBlocked"
+              id="hideBlockedA"
+              class="hidden text-warning"
+              onclick="hideBlocked()"
+              >Hide blocked Users</a
+            >
+            <div class="friend-list hidden" id="userBlocked"></div>
           </div>
         </div>
       </div>
