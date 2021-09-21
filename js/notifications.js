@@ -42,13 +42,15 @@ function appendNotifications(result) {
           <p class="text-muted">${data.body}</p>
           <small class="text-muted">${data.date}</small>
         </div>
-
-        <button class="btn btn-primary acceptButton" id="${id}">Accept</button>
-        <button class="btn btn-danger declineButton" id="${id}">Decline</button>
-        <button class="btn btn-warning blockButton" id="${id}">Block</button>
-        <input type="hidden" id="fromUserId_${id}" value="${
-      data.from_user_id
-    }" />
+        ${
+          parseInt(data.response) == -1
+            ? `<button class="btn btn-primary acceptButton" id="${id}">Accept</button>
+          <button class="btn btn-danger declineButton" id="${id}">Decline</button>
+          <button class="btn btn-warning blockButton" id="${id}">Block</button>
+          <input type="hidden" id="fromUserId_${id}" value="${data.from_user_id}" />`
+            : ""
+        }
+        
       </div>
     </a>
   </li>`;

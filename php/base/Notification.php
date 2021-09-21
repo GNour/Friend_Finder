@@ -12,7 +12,7 @@ class Notification
     public $response;
     public $body;
 
-    public function __construct($id, $from_user, $from_user_first_name, $from_user_last_name, $from_user_image, $to_user, $date)
+    public function __construct($id, $from_user, $from_user_first_name, $from_user_last_name, $from_user_image, $to_user, $date, $response, $body)
     {
         $this->id = $id;
         $this->from_user_id = $from_user;
@@ -21,8 +21,8 @@ class Notification
         $this->from_user_image = $from_user_image;
         $this->to_user = $to_user;
         $this->date = $date;
-        $this->response = -1;
-        $this->body = $from_user_first_name . " " . $from_user_last_name . " Sent you a friend request";
+        $this->response = $response;
+        $this->body = $from_user_first_name . " " . $from_user_last_name . " " . $body;
     }
 
     public static function acceptRequest($id, $from)
@@ -32,7 +32,7 @@ class Notification
         session_start();
         $isAdded = $_SESSION["user"]->addFriend($from);
         if ($isAdded) {
-            $stmt = $connection->query("UPDATE notification SET response = 1 WHERE id = " . $id);
+            $stmt = $connection->query("UPDATE notification SET response = 0, body = " . "'Accepted your friend request'" . " WHERE id = " . $id);
             if ($connection->affected_rows > 0) {
                 return array("ok" => 200, "message" => "Accepted Request");
             }
@@ -46,7 +46,7 @@ class Notification
     {
         include_once "../config/connection.php";
 
-        $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $id);
+        $stmt = $connection->query("UPDATE notification SET response = 0, body = " . "'Didn't accept your friend request'" . " WHERE id = " . $id);
 
         if ($connection->affected_rows > 0) {
             return array("ok" => 200, "message" => "Declined Request");
@@ -63,7 +63,7 @@ class Notification
         $isBlocked = $_SESSION["user"]->blockUser($from);
 
         if ($isBlocked) {
-            $stmt = $connection->query("UPDATE notification SET response = 0 WHERE id = " . $id);
+            $stmt = $connection->query("UPDATE notification SET response = 1 WHERE id = " . $id);
 
             if ($connection->affected_rows > 0) {
 
@@ -96,11 +96,12 @@ class Notification
         include "../config/connection.php";
 
         $notifications = [];
-        $stmt = $connection->query("SELECT n.*, u.first_name as fromFirstName, u.last_name as fromLastName, u.profile_image as profileImage FROM user as u,notification as n WHERE u.id = n.from_user AND n.to_user = " . $userId . " AND n.response = -1");
+        $stmt = $connection->query("SELECT n.*, u.first_name as fromFirstName, u.last_name as fromLastName, u.profile_image as profileImage FROM user as u,notification as n WHERE (u.id = n.from_user AND n.to_user = " . $userId . " AND n.response = -1) OR (u.id = n.to_user AND n.from_user = " . $userId . " AND n.response = 0) ");
         while ($row = $stmt->fetch_assoc()) {
-            $notification = new Notification($row["id"], $row["from_user"], $row["fromFirstName"], $row["fromLastName"], $row["profileImage"], $row["to_user"], $row["date"]);
+            $notification = new Notification($row["id"], $row["from_user"], $row["fromFirstName"], $row["fromLastName"], $row["profileImage"], $row["to_user"], $row["date"], $row["response"], $row["body"]);
             $notifications[$row["id"]] = $notification;
         }
+        $stmt = $connection->query("UPDATE notification SET response = 1 WHERE response = 0 AND from_user = " . $userId);
         return $notifications;
 
     }
