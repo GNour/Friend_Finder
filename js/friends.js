@@ -16,15 +16,12 @@ $(window).on("load", function () {
 
   fetchUserFriends()
     .then((result) => {
-      console.log(result);
       appendFriends(result.friends);
       appendPendings(result.pendings);
       appendBlocked(result.blocked);
       hidePreloader();
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
 });
 
 let count = 0;

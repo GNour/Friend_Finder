@@ -19,9 +19,7 @@ $(window).on("load", function () {
       appendNotifications(result);
       hidePreloader();
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
 });
 
 let count = 0;
