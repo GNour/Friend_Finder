@@ -1,3 +1,4 @@
+hidePreloader();
 if (localStorage.getItem("user")) {
   const data = JSON.parse(localStorage.getItem("user"));
   $("#userNameM").html(data.user.first_name + " " + data.user.last_name);

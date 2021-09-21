@@ -1,10 +1,9 @@
 let count = 0;
 let resultsCount = 0;
-
+hidePreloader();
 $("#searchBox").keyup((event) => {
   if ($("#searchBox").val().length % 3 == 0 && $("#searchBox").val() != "") {
     searchQuery($("#searchBox").val()).then((result) => {
-      console.log(result);
       appendSearchResult(result);
     });
   } else if ($("#searchBox").val() == "") {

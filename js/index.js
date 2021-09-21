@@ -1,7 +1,6 @@
 // Login Functions
-
+hidePreloader();
 async function loginUser(data) {
-  console.log(data);
   const response = await fetch("php/API/login.php", {
     method: "POST",
     headers: {},
