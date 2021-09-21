@@ -7,8 +7,6 @@ function hidePreloader() {
   preloader.fadeOut(preloaderFadeOutTime);
 }
 
-hidePreloader();
-
 jQuery(document).ready(function ($) {
   //Initiate Scroll Styling
   if ($.isFunction($.fn.scrollbar)) $(".scrollbar-wrapper").scrollbar();
