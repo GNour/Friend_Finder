@@ -36,19 +36,23 @@ function appendFriends(result) {
     const notification = `<div class="row" id="friend_${id}">
     <div class="col-md-2 col-sm-2">
       <img
-        src="images/users/user-15.jpg"
+        src="${data.profileImage.substring(1)}"
         alt="user"
         class="profile-photo-lg"
       />
     </div>
     <div class="col-md-7 col-sm-7">
-      <h5><a href="#" class="profile-link">${data.first_name} ${data.last_name}</a></h5>
+      <h5><a href="#" class="profile-link">${data.first_name} ${
+      data.last_name
+    }</a></h5>
       <p>${data.birthday}</p>
       <p class="text-muted">${data.city}, ${data.country}</p>
     </div>
     <div class="col-md-3 col-sm-3">
       <button class="btn btn-danger mb-5 removeFriend" id="${id}">Remove Friend</button>
-      <button class="btn btn-warning mb-5 blockFriend" id="${data.id}">Block</button>
+      <button class="btn btn-warning mb-5 blockFriend" id="${
+        data.id
+      }">Block</button>
     </div>
   </div>`;
 
@@ -70,13 +74,15 @@ function appendPendings(result) {
     const pending = `<div class="row" id="pending_${id}">
     <div class="col-md-2 col-sm-2">
       <img
-        src="images/users/user-15.jpg"
+        src="${data.profileImage.substring(1)}"
         alt="user"
         class="profile-photo-lg"
       />
     </div>
     <div class="col-md-7 col-sm-7">
-      <h5><a href="#" class="profile-link">${data.first_name} ${data.last_name}</a></h5>
+      <h5><a href="#" class="profile-link">${data.first_name} ${
+      data.last_name
+    }</a></h5>
       <p>2021-1-1</p>
       <p class="text-muted">${data.city}, ${data.country}</p>
     </div>

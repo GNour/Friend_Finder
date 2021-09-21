@@ -43,6 +43,7 @@ async function findAPI(action, id, date) {
 }
 
 function appendSearchResult(result) {
+  resultsCount = 0;
   const searchContainer = document.getElementById("searchResult");
   searchContainer.innerHTML = "";
   for (const [key, value] of Object.entries(result)) {
@@ -51,13 +52,15 @@ function appendSearchResult(result) {
                 <div class="row">
                   <div class="col-md-2 col-sm-2">
                     <img
-                      src="images/users/user-15.jpg"
+                      src="${value.profile_image.substring(1)}"
                       alt="user"
                       class="profile-photo-lg"
                     />
                   </div>
                   <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">${value.first_name} ${value.last_name}</a></h5>
+                    <h5><a href="#" class="profile-link">${value.first_name} ${
+      value.last_name
+    }</a></h5>
                     <p class="text-muted">${value.city}, ${value.country}</p>
                   </div>
                   <div class="col-md-3 col-sm-3">

@@ -33,7 +33,7 @@ function appendNotifications(result) {
     <a>
       <div class="contact">
         <img
-          src="images/users/user-2.jpg"
+          src="${data.from_user_image.substring(1)}"
           alt=""
           class="profile-photo-sm pull-left"
         />
@@ -46,7 +46,9 @@ function appendNotifications(result) {
         <button class="btn btn-primary acceptButton" id="${id}">Accept</button>
         <button class="btn btn-danger declineButton" id="${id}">Decline</button>
         <button class="btn btn-warning blockButton" id="${id}">Block</button>
-        <input type="hidden" id="fromUserId_${id}" value="${data.from_user_id}" />
+        <input type="hidden" id="fromUserId_${id}" value="${
+      data.from_user_id
+    }" />
       </div>
     </a>
   </li>`;

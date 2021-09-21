@@ -17,13 +17,15 @@ if ($_GET["action"] == "querySearch") {
 
         . "(u.first_name LIKE \"" . $query . "%\" OR u.last_name LIKE \"" . $query . "%\")\n"
 
-        . "AND \n"
+        . "AND u.id NOT IN(SELECT friend_id FROM user_friend_list WHERE user_id = " . $userId . ")\n"
 
-        . "u.id NOT IN(SELECT friend_id FROM user_friend_list WHERE user_id = " . $userId . ")\n"
+        . "AND u.id NOT IN(SELECT user_id FROM user_friend_list WHERE friend_id = " . $userId . ")\n"
 
         . "AND u.id NOT IN(SELECT friend_id FROM user_block_list WHERE user_id = " . $userId . ")\n"
 
-        . "AND u.id NOT IN(SELECT to_user FROM notification WHERE from_user = " . $userId . " AND response = -1)\n"
+        . "AND u.id NOT IN(SELECT user_id FROM user_block_list WHERE friend_id = " . $userId . ")\n"
+
+        . "AND u.id NOT IN(SELECT to_user FROM notification WHERE to_user = " . $userId . " OR from_user = " . $userId . " AND response = -1)\n"
 
         . "AND u.id != " . $userId);
 
@@ -35,6 +37,7 @@ if ($_GET["action"] == "querySearch") {
         $temp["last_name"] = $row["last_name"];
         $temp["city"] = $row["city"];
         $temp["country"] = $row["country"];
+        $temp["profile_image"] = $row["profile_image"];
 
         $result[$row["id"]] = $temp;
     }
