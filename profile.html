@@ -31,9 +31,10 @@
                   <img
                     src="images/users/user-1.jpg"
                     alt=""
+                    id="userImage"
                     class="img-responsive profile-photo"
                   />
-                  <h3>Sarah Cruiz</h3>
+                  <h3 id="userName">Sarah Cruiz</h3>
                 </div>
               </div>
             </div>
@@ -42,11 +43,12 @@
           <div class="navbar-mobile hidden-lg hidden-md">
             <div class="profile-info">
               <img
-                src="images/users/user-1.jpg"
+                src=""
                 alt=""
+                id="userImageM"
                 class="img-responsive profile-photo"
               />
-              <h4>Sarah Cruiz</h4>
+              <h4 id="userNameM"></h4>
             </div>
           </div>
         </div>
@@ -86,10 +88,17 @@
                   <div class="line"></div>
                 </div>
                 <div class="edit-block">
-                  <form name="basic-info" id="basic-info" class="form-inline">
+                  <form
+                    name="basic-info"
+                    method="POST"
+                    action="php/editProfile.php"
+                    id="basic-info"
+                    enctype="multipart/form-data"
+                    class="form-inline"
+                  >
                     <div class="row">
                       <div class="form-group col-xs-6">
-                        <label for="city"> First Name</label>
+                        <label for="firstName"> First Name</label>
                         <input
                           id="firstName"
                           class="form-control input-group-lg"
@@ -100,7 +109,7 @@
                         />
                       </div>
                       <div class="form-group col-xs-6">
-                        <label for="city"> Last Name</label>
+                        <label for="lastName"> Last Name</label>
                         <input
                           id="lastName"
                           class="form-control input-group-lg"
@@ -121,12 +130,16 @@
                           name="city"
                           title="Enter city"
                           placeholder="Your city"
-                          value="New York"
+                          value=""
                         />
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="country">My country</label>
-                        <select class="form-control" id="country">
+                        <select
+                          class="form-control"
+                          name="country"
+                          id="country"
+                        >
                           <option value="country">Country</option>
                           <option value="AFG">Afghanistan</option>
                           <option value="ALA">Ƭand Islands</option>
@@ -399,7 +412,7 @@
                           <option value="UKR">Ukraine</option>
                           <option value="ARE">United Arab Emirates</option>
                           <option value="GBR">United Kingdom</option>
-                          <option value="USA" selected>United States</option>
+                          <option value="USA">United States</option>
                           <option value="UMI">
                             United States Minor Outlying Islands
                           </option>
@@ -419,116 +432,126 @@
                           <option value="ZWE">Zimbabwe</option>
                         </select>
                       </div>
-                      <div class="row">
+                      <div class="col-xs-12">
                         <p class="birth"><strong>Date of Birth</strong></p>
                         <div class="form-group col-sm-3 col-xs-6">
                           <label for="month" class="sr-only"></label>
                           <select class="form-control" name="day" id="day">
-                            <option value="Day" disabled selected>Day</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                            <option>13</option>
-                            <option>14</option>
-                            <option>15</option>
-                            <option>16</option>
-                            <option>17</option>
-                            <option>18</option>
-                            <option>19</option>
-                            <option>20</option>
-                            <option>21</option>
-                            <option>22</option>
-                            <option>23</option>
-                            <option>24</option>
-                            <option>25</option>
-                            <option>26</option>
-                            <option>27</option>
-                            <option>28</option>
-                            <option>29</option>
-                            <option>30</option>
-                            <option>31</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
                           </select>
                         </div>
                         <div class="form-group col-sm-3 col-xs-6">
                           <label for="month" class="sr-only"></label>
                           <select class="form-control" name="month" id="month">
-                            <option value="month" disabled selected>
-                              Month
-                            </option>
-                            <option>Jan</option>
-                            <option>Feb</option>
-                            <option>Mar</option>
-                            <option>Apr</option>
-                            <option>May</option>
-                            <option>Jun</option>
-                            <option>Jul</option>
-                            <option>Aug</option>
-                            <option>Sep</option>
-                            <option>Oct</option>
-                            <option>Nov</option>
-                            <option>Dec</option>
+                            <option value="Jan">Jan</option>
+                            <option value="Feb">Feb</option>
+                            <option value="Mar">Mar</option>
+                            <option value="Apr">Apr</option>
+                            <option value="May">May</option>
+                            <option value="Jun">Jun</option>
+                            <option value="Jul">Jul</option>
+                            <option value="Aug">Aug</option>
+                            <option value="Sep">Sep</option>
+                            <option value="Oct">Oct</option>
+                            <option value="Nov">Nov</option>
+                            <option value="Dec">Dec</option>
                           </select>
                         </div>
                         <div class="form-group col-sm-6 col-xs-12">
                           <label for="year" class="sr-only"></label>
                           <select class="form-control" name="year" id="year">
-                            <option value="year" disabled selected>Year</option>
-                            <option>1970</option>
-                            <option>1971</option>
-                            <option>1972</option>
-                            <option>1973</option>
-                            <option>1974</option>
-                            <option>1975</option>
-                            <option>1976</option>
-                            <option>1977</option>
-                            <option>1978</option>
-                            <option>1979</option>
-                            <option>1980</option>
-                            <option>1981</option>
-                            <option>1982</option>
-                            <option>1983</option>
-                            <option>1984</option>
-                            <option>1985</option>
-                            <option>1986</option>
-                            <option>1987</option>
-                            <option>1998</option>
-                            <option>1989</option>
-                            <option>1990</option>
-                            <option>1991</option>
-                            <option>1992</option>
-                            <option>1993</option>
-                            <option>1994</option>
-                            <option>1995</option>
-                            <option>1996</option>
-                            <option>1997</option>
-                            <option>1998</option>
-                            <option>1999</option>
-                            <option>2000</option>
-                            <option>2001</option>
-                            <option>2002</option>
-                            <option>2004</option>
-                            <option>2005</option>
-                            <option>2006</option>
-                            <option>2007</option>
-                            <option>2008</option>
-                            <option>2009</option>
-                            <option>2010</option>
-                            <option>2011</option>
-                            <option>2012</option>
+                            <option value="1970">1970</option>
+                            <option value="1971">1971</option>
+                            <option value="1972">1972</option>
+                            <option value="1973">1973</option>
+                            <option value="1974">1974</option>
+                            <option value="1975">1975</option>
+                            <option value="1976">1976</option>
+                            <option value="1977">1977</option>
+                            <option value="1978">1978</option>
+                            <option value="1979">1979</option>
+                            <option value="1980">1980</option>
+                            <option value="1981">1981</option>
+                            <option value="1982">1982</option>
+                            <option value="1983">1983</option>
+                            <option value="1984">1984</option>
+                            <option value="1985">1985</option>
+                            <option value="1986">1986</option>
+                            <option value="1987">1987</option>
+                            <option value="1988">1998</option>
+                            <option value="1989">1989</option>
+                            <option value="1990">1990</option>
+                            <option value="1991">1991</option>
+                            <option value="1991">1992</option>
+                            <option value="1993">1993</option>
+                            <option value="1994">1994</option>
+                            <option value="1995">1995</option>
+                            <option value="1996">1996</option>
+                            <option value="1997">1997</option>
+                            <option value="1998">1998</option>
+                            <option value="1999">1999</option>
+                            <option value="2000">2000</option>
+                            <option value="2001">2001</option>
+                            <option value="2002">2002</option>
+                            <option value="2004">2004</option>
+                            <option value="2005">2005</option>
+                            <option value="2006">2006</option>
+                            <option value="2007">2007</option>
+                            <option value="2008">2008</option>
+                            <option value="2009">2009</option>
+                            <option value="2010">2010</option>
+                            <option value="2011">2011</option>
+                            <option value="2012">2012</option>
                           </select>
                         </div>
                       </div>
                     </div>
-                    <button class="btn btn-primary">Save Changes</button>
+
+                    <div class="col-12">
+                      <div class="form-group col-xs-12">
+                        <label for="image" class="">Edit Profile Image</label>
+                        <input
+                          id="image"
+                          class="form-control input-group-lg"
+                          type="file"
+                          name="userImage"
+                          title="Upload Image"
+                        />
+                      </div>
+                    </div>
+                    <button class="btn btn-primary">
+                      Save Changes & Relogin
+                    </button>
                   </form>
                 </div>
               </div>
@@ -548,5 +571,6 @@
     <script src="js/jquery.sticky-kit.min.js"></script>
     <script src="js/jquery.scrollbar.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/profile.js"></script>
   </body>
 </html>
