@@ -27,7 +27,10 @@ $("#loginButton").click((event) => {
     if (result.ok == 200) {
       localStorage.setItem("user", JSON.stringify(result.data));
       window.location.href = "./notifications.html";
-    } else {
+    } else if (result.ok == 500) {
+      $("#notice").removeClass("text-muted");
+      $("#notice").addClass("text-danger");
+      $("#notice").html("You've entered a wrong email or password");
     }
   });
 });
